@@ -282,67 +282,67 @@ namespace Infrastructure.Repositories
 # Controlador de guia 
 
 ``` 
-public class ModuloNotificacionController : BaseControllerApi
+public class PaisController: BaseControllerApi
     {
-        private readonly IUnitOfWork _unitOfWork;
+         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ModuloNotificacionController(IUnitOfWork unitOfWork, IMapper mapper)
+        public PaisController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        /* Get all Auditors in the database */
+        
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<ModuloNotificacionDto>>> Get()
+        public async Task<ActionResult<IEnumerable<PaisDto>>> Get()
         {
-            var moduloNoti = await _unitOfWork.ModuloNotificaciones.GetAllAsync();
-            /* return Ok(auditors); */
-            return _mapper.Map<List<ModuloNotificacionDto>>(moduloNoti);
+            var pais = await _unitOfWork.Paises.GetAllAsync();
+            
+            return _mapper.Map<List<PaisDto>>(pais);
         }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ModuloNotificacion>> Post(ModuloNotificacionDto moduloNotificacionDto)
+        public async Task<ActionResult<Pais>> Post(PaisDto paisDto)
         {
-            var moduloNoti = _mapper.Map<ModuloNotificacion>(moduloNotificacionDto);
-            this._unitOfWork.ModuloNotificaciones.Add(moduloNoti);
+            var pais = _mapper.Map<Pais>(paisDto);
+            this._unitOfWork.Paises.Add(pais);
             await _unitOfWork.SaveAsync();
-            if (moduloNoti == null)
+            if (pais == null)
             {
                 return BadRequest();
             }
-            moduloNotificacionDto.Id = moduloNoti.Id;
-            return CreatedAtAction(nameof(Post), new { id = moduloNotificacionDto.Id }, moduloNotificacionDto);
+            paisDto.Id = pais.Id;
+            return CreatedAtAction(nameof(Post), new { id = paisDto.Id }, paisDto);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ModuloNotificacionDto>> Get(int id)
+        public async Task<ActionResult<PaisDto>> Get(int id)
         {
-            var moduloNoti = await _unitOfWork.ModuloNotificaciones.GetByIdAsync(id);
-            if (moduloNoti == null)
+            var pais = await _unitOfWork.Paises.GetByIdAsync(id);
+            if (pais == null)
             {
                 return NotFound();
             }
-            return _mapper.Map<ModuloNotificacionDto>(moduloNoti);
+            return _mapper.Map<PaisDto>(pais);
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ModuloNotificacionDto>> Put(int id, [FromBody] ModuloNotificacionDto moduloNotificacionDto)
+        public async Task<ActionResult<PaisDto>> Put(int id, [FromBody] PaisDto paisDto)
         {
-            if (moduloNotificacionDto == null)
+            if (paisDto == null)
                 return NotFound();
-            var moduloNoti = _mapper.Map<ModuloNotificacion>(moduloNotificacionDto);
-            _unitOfWork.ModuloNotificaciones.Update(moduloNoti);
+            var pais = _mapper.Map<Pais>(paisDto);
+            _unitOfWork.Paises.Update(pais);
             await _unitOfWork.SaveAsync();
-            return moduloNotificacionDto;
+            return paisDto;
         }
 
         [HttpDelete("{id}")]
@@ -350,12 +350,12 @@ public class ModuloNotificacionController : BaseControllerApi
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var moduloNoti = await _unitOfWork.ModuloNotificaciones.GetByIdAsync(id);
-            if (moduloNoti == null)
+            var pais = await _unitOfWork.Paises.GetByIdAsync(id);
+            if (pais == null)
             {
                 return NotFound();
             }
-            _unitOfWork.ModuloNotificaciones.Remove(moduloNoti);
+            _unitOfWork.Paises.Remove(pais);
             await _unitOfWork.SaveAsync();
             return NoContent();
         }
