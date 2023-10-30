@@ -1,5 +1,5 @@
 # Juan-Ropa# noti-App
-# veterinariaNet
+
 # Creación de Solución
 
 ```
