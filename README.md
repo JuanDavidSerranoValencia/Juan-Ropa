@@ -1,4 +1,4 @@
-# Juan-Ropa# noti-App
+# Juan-Ropa
 
 # Creación de Solución
 
